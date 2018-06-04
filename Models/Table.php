@@ -43,10 +43,6 @@ function voucher_table_footer()
 {
     echo '
 	</tbody>
-	<tfoot>
-	<div class="nav-previous alignleft">Anterior</div>
-    <div class="nav-next alignright">Proxímo</div>
-    </tfoot>
 	</table>
 	';
 }
