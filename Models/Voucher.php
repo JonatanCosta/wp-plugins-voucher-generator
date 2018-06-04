@@ -8,9 +8,9 @@
 require_once 'Pages.php';
 
 /*
- * Plugin Init
+ * Plugin Init Function
  */
-function initVoucherRaibu()
+function initVoucher()
 {
     add_action('wp_head', 'voucher_raibu_js');
     add_action('admin_menu', 'add_menu_admin');
@@ -37,3 +37,4 @@ function voucher_raibu_js()
         <script type="text/javascript" src="' . plugin_dir_url( __FILE__ ) . '../js/index.js"></script>
     ';
 }
+
