@@ -5,6 +5,7 @@
  * Date: 04/06/18
  * Time: 12:36
  */
+session_start();
 require_once 'Pages.php';
 
 /*
