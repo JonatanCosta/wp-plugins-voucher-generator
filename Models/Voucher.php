@@ -13,7 +13,7 @@ require_once 'Pages.php';
  */
 function initVoucher()
 {
-    add_action('wp_head', 'voucher_raibu_js');
+    add_action('admin_head', 'voucher_raibu_js');
     add_action('admin_menu', 'add_menu_admin');
 }
 

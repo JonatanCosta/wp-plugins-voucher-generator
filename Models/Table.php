@@ -44,8 +44,8 @@ function voucher_table_boddy($vouchers)
 function voucher_table_action($voucher)
 {
     return '
-            <a class="button button-primary">Editar</a>
-            <a class="button dang">Remover</a>
+            <a class="button button-primary" href="admin.php?page=update-voucher&&id='.$voucher->id.'">Editar</a>
+            <a class="button btn-remove-voucher" data-id="'.$voucher->id.'">Remover</a>
             ';
 }
 

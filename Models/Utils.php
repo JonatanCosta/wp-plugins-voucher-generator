@@ -44,3 +44,13 @@ function create_message_response($message, $type)
 
     $_SESSION['message'] = $response;
 }
+
+/*
+ * Redirect
+ */
+function redirect($url)
+{
+    echo '<script type="text/javascript">
+           window.location = "'.$url.'"
+         </script>';
+}

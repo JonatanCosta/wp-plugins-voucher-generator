@@ -5,6 +5,7 @@
  */
 require_once 'Table.php';
 require_once 'Utils.php';
+require_once 'Actions.php';
 
 /*
  * Lista e Pagina inicial
@@ -29,12 +30,12 @@ function vouchers_initial_page()
     voucher_table_boddy($vouchers);
     voucher_table_footer();
 
-    $page_links = paginate_links( [
+    $page_links = paginate_links([
         'base' => add_query_arg( 'pagenum', '%#%' ),
         'format' => '',
         'prev_text' => __( '&laquo;', 'dashicons-arrow-right-alt' ),
         'next_text' => __( '&raquo;', 'dashicons-arrow-right-alt' ),
-        'total' => ( ($countVouchers == 6 ? ($countVouchers + 6) : $countVouchers) / $perpage ),
+        'total' => ( ($countVouchers >= 6 ? ($countVouchers + 6) : $countVouchers) / $perpage ),
         'current' => $pagenum
     ]);
 
@@ -52,50 +53,68 @@ function voucher_create_voucher_page()
     voucher_form();
 }
 
-// Action post
-add_action('admin_post_custom_action_hook', 'register_voucher');
-
-function register_voucher()
+/*
+ * Edição de vouchers
+ */
+function update_voucher_page()
 {
-    try {
-        global $wpdb;
-        $prefix = get_db_prefix();
-
-        $wpdb->insert($prefix.'vouchers', [
-            'name' => $_POST['name'],
-            'description' => $_POST['description'],
-            'codeprefix' => $_POST['prefix'],
-            'deleted' => 0
-        ]);
-
-        create_message_response('Voucher criado com sucesso!', 1);
-        return header( "Location: admin.php?page=voucher");
-
-    } catch (\Exception $exception) {
-        create_message_response('Ocorreu um erro ao criar a menssagem!', 2);
-        return header( "Location: admin.php?page=voucher");
+    if (!isset($_GET['id']) || $_GET['id'] == null) {
+        create_message_response('Ocorreu um erro ao editar!', 2);
+        redirect('admin.php?page=voucher');
+        exit();
     }
+
+    $voucher = get_voucher($_GET['id']);
+
+    if (!$voucher) {
+        create_message_response('Ocorreu um erro ao editar!', 2);
+        redirect('admin.php?page=voucher');
+        exit();
+    }
+
+    echo '<h2>Edição de Voucher</h2>';
+    echo voucher_form($voucher);
 }
+
+/*
+ * Page Edit
+ */
+add_action('admin_menu', 'page_edit');
+
+function page_edit() {
+    add_submenu_page(
+        null,
+        'Edição do Vouchers',
+        'Edição do Vouchers',
+        'manage_options',
+        'update-voucher',
+        'update_voucher_page'
+    );
+}
+
 
 /*
  * Form de cadastro ou alteração
  */
 function voucher_form($obj = null)
 {
+
+    echo '<form action="admin-post.php" method="post" id="voucherform">';
+
     if ($obj) {
-        return;
+        echo '<input name="action" type="hidden" value="update_voucher"/>';
+        echo '<input name="id" type="hidden" value="'.$obj->id.'"/>';
+    } else {
+        echo '<input name="action" type="hidden" value="register_voucher"/>';
     }
 
-    echo '
-        <form action="admin-post.php" method="post" id="voucherform">
-            <input name="action" type="hidden" value="custom_action_hook"/>
-            <div id="poststuff">
+    echo '<div id="poststuff">
                 <div id="post-body" class="metabox-holder columns-2">
                     <div id="post-body-content">
                         <div id="titlediv">
                             <div id="titlewrap">
                                 <label>Nome:</label>
-                                <input type="text" name="name" size="30" value="" id="title" spellcheck="true" autocomplete="off" placeholder="Digite o nome do voucher" required>
+                                <input type="text" name="name" size="30" value="'.(isset($obj) ? $obj->name : '').'" id="title" spellcheck="true" autocomplete="off" placeholder="Digite o nome do voucher" required>
                             </div>
                         </div>
                     </div>
@@ -103,7 +122,7 @@ function voucher_form($obj = null)
                         <div id="titlediv">
                             <div id="titlewrap">
                                 <label>Cód. Prefixo, Ex: <strong>RAIBU</strong>123:</label>
-                                <input type="text" name="prefix" size="30" value="" id="title" spellcheck="true" autocomplete="off" placeholder="Digite um prefixo" required>
+                                <input type="text" name="prefix" size="30" value="'.(isset($obj) ? $obj->codeprefix : '').'" id="title" spellcheck="true" autocomplete="off" placeholder="Digite um prefixo" required>
                             </div>
                         </div>
                     </div>
@@ -111,12 +130,12 @@ function voucher_form($obj = null)
                         <div id="titlediv">
                             <div id="titlewrap">
                                 <label>Descrição:</label>
-                                <textarea type="text" name="description" value="" id="title" spellcheck="true" autocomplete="off" placeholder="Digite a descrição do voucher" cols="100" style="min-height: 15vh;" required></textarea>
+                                <textarea type="text" name="description" id="title" spellcheck="true" autocomplete="off" placeholder="Digite a descrição do voucher" cols="100" style="min-height: 15vh;" required>'.(isset($obj) ? $obj->description : '').'</textarea>
                             </div>
                         </div>
                     </div>
                     <div id="post-body-content">
-                        <button class="button button-large button-primary pull right" type="submit">Cadastrar</button>
+                        <button class="button button-large button-primary pull right" type="submit">'.(isset($obj) ? 'Alterar' : 'Cadastrar').'</button>
                     </div>
                 </div>
             </div>
@@ -124,36 +143,3 @@ function voucher_form($obj = null)
     ';
 }
 
-/*
- *  Get All Vouchers
- */
-function get_vouchers( $num = 25, $all = false, $start = 0 )
-{
-    global $wpdb;
-    $prefix = get_db_prefix();
-
-    $showall = "0";
-    if ( $all ) {
-        $showall = "1";
-    }
-
-    $limit = "limit " . ( int ) $start . "," . ( int ) $num;
-    if ( 0 == ( int ) $num ) {
-        $limit = "";
-    }
-
-//    $query = $wpdb->query("select * from " . $prefix . "vouchers ".$limit.";", $showall, $showall, time(), $showall, time(), 1);
-    return $wpdb->get_results("select * from " . $prefix . "vouchers where deleted = 0 ".$limit.";");
-}
-
-/*
- * Count off Vouchers
- */
-
-function get_vouchers_count()
-{
-    global $wpdb;
-    $prefix = get_db_prefix();
-    $sql = "select count(id) from " . $prefix . "vouchers;";
-    return $wpdb->get_var( $sql );
-}
