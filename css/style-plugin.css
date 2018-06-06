@@ -1,0 +1,57 @@
+.wp-core-ui .button-danger {
+    background: #e33333;
+    border-color: #dc3232 #dc3232 #9f2929;
+    box-shadow: 0 1px 0 #dc3232;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #dc3232, 1px 0 1px #dc3232, 0 1px 1px #dc3232, -1px 0 1px #dc3232;
+}
+
+.wp-core-ui .button-warning {
+    background: #ffa726;
+    border-color: #ffa726 #ffa726 #fb8c00;
+    box-shadow: 0 1px 0 #ffa726;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #fb8c00, 1px 0 1px #fb8c00, 0 1px 1px #fb8c00, -1px 0 1px #fb8c00;
+}
+
+.wp-core-ui .button-active {
+    background: #4caf50;
+    border-color: #4caf50 #4caf50 #388e3c;
+    box-shadow: 0 1px 0 #4caf50;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #388e3c, 1px 0 1px #388e3c, 0 1px 1px #388e3c, -1px 0 1px #388e3c;
+}
+
+.wp-core-ui .button-danger:hover {
+    background: #dc3232;
+    border-color: #dc3232 #dc3232 #9f2929;
+    box-shadow: 0 1px 0 #dc3232;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #dc3232, 1px 0 1px #dc3232, 0 1px 1px #dc3232, -1px 0 1px #dc3232;
+}
+
+.wp-core-ui .button-warning:hover {
+    background: #ffa726;
+    border-color: #ffa726 #ffa726 #fb8c00;
+    box-shadow: 0 1px 0 #ffa726;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #fb8c00, 1px 0 1px #fb8c00, 0 1px 1px #fb8c00, -1px 0 1px #fb8c00;
+}
+
+.wp-core-ui .button-active:hover {
+    background: #4caf50;
+    border-color: #4caf50 #4caf50 #388e3c;
+    box-shadow: 0 1px 0 #4caf50;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #388e3c, 1px 0 1px #388e3c, 0 1px 1px #388e3c, -1px 0 1px #388e3c;
+}
+
+.mg-left-5 {
+    margin-left: 5px !important;
+}

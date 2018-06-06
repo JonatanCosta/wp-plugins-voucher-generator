@@ -1,6 +1,6 @@
 <?php
 /**
- * User: jonatan
+ * User: Jonatan Costa da Rosa
  * Date: 04/06/18
  */
 require_once 'Table.php';
@@ -26,22 +26,30 @@ function vouchers_initial_page()
         session_unset($_SESSION['message']);
     }
 
-    voucher_table_header(['# ID','Nome','Descrição', 'Prefixo', 'Ação']);
-    voucher_table_boddy($vouchers);
-    voucher_table_footer();
+    echo '<div id="poststuff">
+            <div id="post-body" class="metabox-holder columns-1">
+                <div id="post-body-content">';
+                    voucher_table_header(['ID','Nome','Descrição', 'Prefixo', 'Qtd. por dia', 'Ação']);
+                    voucher_table_boddy($vouchers);
+                    voucher_table_footer();
 
-    $page_links = paginate_links([
-        'base' => add_query_arg( 'pagenum', '%#%' ),
-        'format' => '',
-        'prev_text' => __( '&laquo;', 'dashicons-arrow-right-alt' ),
-        'next_text' => __( '&raquo;', 'dashicons-arrow-right-alt' ),
-        'total' => ( ($countVouchers >= 6 ? ($countVouchers + 6) : $countVouchers) / $perpage ),
-        'current' => $pagenum
-    ]);
+                    $page_links = paginate_links([
+                        'base' => add_query_arg( 'pagenum', '%#%' ),
+                        'format' => '',
+                        'prev_text' => __( '&laquo;', 'dashicons-arrow-right-alt' ),
+                        'next_text' => __( '&raquo;', 'dashicons-arrow-right-alt' ),
+                        'total' => ( ($countVouchers >= 6 ? ($countVouchers + 6) : $countVouchers) / $perpage ),
+                        'current' => $pagenum
+                    ]);
 
-    if ( $page_links ) {
-        echo '<div class="tablenav"><div class="tablenav-pages" style="margin: 1em 0">' . $page_links . '</div></div>';
-    }
+                    if ( $page_links ) {
+                        echo '<div class="tablenav"><div class="tablenav-pages" style="margin: 1em 0">' . $page_links . '</div></div>';
+                    }
+    echo '</div>
+            </div>
+          </div>';
+
+
 }
 
 /*
@@ -98,7 +106,6 @@ function page_edit() {
  */
 function voucher_form($obj = null)
 {
-
     echo '<form action="admin-post.php" method="post" id="voucherform">';
 
     if ($obj) {
@@ -123,6 +130,14 @@ function voucher_form($obj = null)
                             <div id="titlewrap">
                                 <label>Cód. Prefixo, Ex: <strong>RAIBU</strong>123:</label>
                                 <input type="text" name="prefix" size="30" value="'.(isset($obj) ? $obj->codeprefix : '').'" id="title" spellcheck="true" autocomplete="off" placeholder="Digite um prefixo" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="post-body-content">
+                        <div id="titlediv">
+                            <div id="titlewrap">
+                                <label>Gerações por dia, <b>digite 0 para ilimitado</b>:</label>
+                                <input type="number" name="generates" size="30" value="'.(isset($obj) ? $obj->generates_per_day : '').'" id="title" spellcheck="true" autocomplete="off" placeholder="Digite um número de códigos que podem ser gerados por dia." required>
                             </div>
                         </div>
                     </div>

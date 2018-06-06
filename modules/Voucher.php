@@ -7,6 +7,7 @@
  */
 session_start();
 require_once 'Pages.php';
+require_once 'Shortcodes.php';
 
 /*
  * Plugin Init Function
@@ -14,6 +15,7 @@ require_once 'Pages.php';
 function initVoucher()
 {
     add_action('admin_head', 'voucher_raibu_js');
+    add_action('admin_head', 'voucher_raibu_css');
     add_action('admin_menu', 'add_menu_admin');
 }
 
@@ -36,6 +38,16 @@ function voucher_raibu_js()
             var vp_siteurl = "' . get_option( "siteurl" ) . '";
         </script>
         <script type="text/javascript" src="' . plugin_dir_url( __FILE__ ) . '../js/index.js"></script>
+    ';
+}
+
+/*
+ * Plugin CSS
+ */
+function voucher_raibu_css()
+{
+    echo '
+        <link rel="stylesheet" href="' . plugin_dir_url( __FILE__ ) . '../css/style-plugin.css">    
     ';
 }
 

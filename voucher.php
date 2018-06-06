@@ -3,8 +3,8 @@
  * Plugin Name
  *
  * @package     Voucher Generator
- * @author      Jonatan Costa
- * @copyright   2018  - Jonatan
+ * @author      Jonatan Costa da Rosa
+ * @copyright   2018  - Jonatan Costa da Rosa
  * @license     GPL-2.0+
  *
  * @wordpress-plugin
@@ -22,8 +22,8 @@
 /* Quando ativar o plugin */
 register_activation_hook( __FILE__, "voucher_activate" );
 
-require_once 'Models/Voucher.php';
-require_once 'Models/Utils.php';
+require_once 'modules/Voucher.php';
+require_once 'modules/Utils.php';
 
 /*
 * Init Plugin
@@ -60,7 +60,9 @@ function voucher_create_tables()
 			  name VARCHAR(50) NOT NULL,
 			  `description` TEXT NULL,
 			  codeprefix VARCHAR(50) DEFAULT '',
-			  deleted tinyint DEFAULT '0',
+			  deleted BOOLEAN DEFAULT 0,
+			  active BOOLEAN DEFAULT 0,
+			  generates_per_day int DEFAULT 0,
 			  PRIMARY KEY  id (id)
 			) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
     dbDelta($table_vouchers);
