@@ -54,3 +54,39 @@ function redirect($url)
            window.location = "'.$url.'"
          </script>';
 }
+
+/*
+ * Response JSON to ajax requests
+ */
+function response($array = [], $status_code)
+{
+    http_response_code($status_code);
+    echo json_encode($array);
+    die();
+}
+
+/*
+ * Validation email
+ */
+function validation_email_domain($email)
+{
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        return false;
+    }
+
+    $dominio=explode('@', $email);
+
+    if (!checkdnsrr($dominio[1],'A')) {
+        return false;
+    }
+
+    return true;
+}
+
+/*
+ * Random String
+ */
+function generateRandomString($length = 10)
+{
+    return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+}

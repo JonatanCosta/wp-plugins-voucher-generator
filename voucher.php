@@ -4,7 +4,7 @@
  *
  * @package     Voucher Generator
  * @author      Jonatan Costa da Rosa
- * @copyright   2018  - Jonatan Costa da Rosa
+ * @copyright   2018 - Jonatan Costa da Rosa
  * @license     GPL-2.0+
  *
  * @wordpress-plugin
@@ -70,10 +70,13 @@ function voucher_create_tables()
     $table_vouchers_codes = "CREATE TABLE IF NOT EXISTS " . $prefix . "voucher_codes (
 			  id int unsigned NOT NULL AUTO_INCREMENT,
 			  voucher_id int unsigned,
+			  email VARCHAR(250) NOT NULL,
 			  code VARCHAR(250) NOT NULL,
-			  deleted tinyint DEFAULT '0',
+			  used BOOLEAN DEFAULT 0,
 			  PRIMARY KEY  id (id),
-              FOREIGN KEY (voucher_id) REFERENCES ".$prefix."vouchers(id)
+              FOREIGN KEY (voucher_id) REFERENCES ".$prefix."vouchers(id),
+              created_at TIMESTAMP NOT NULL,
+              updated_at TIMESTAMP NOT NULL
 			) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
     dbDelta($table_vouchers_codes);
 

@@ -19,22 +19,22 @@ function vouchers_initial_page()
     $vouchers = get_vouchers($perpage, false, $start);
     $countVouchers = get_vouchers_count();
 
-    echo '<h1>Vouchers</h1>';
-
     if (isset($_SESSION['message'])) {
         echo $_SESSION['message'];
         session_unset($_SESSION['message']);
     }
 
     echo '<div id="poststuff">
-            <div id="post-body" class="metabox-holder columns-1">
-                <div id="post-body-content">';
+            <div id="post-body" class="metabox-holder">
+                <div id="post-body-content">
+                <h1>Vouchers: </h1>
+                ';
                     voucher_table_header(['ID','Nome','Descrição', 'Prefixo', 'Qtd. por dia', 'Ação']);
                     voucher_table_boddy($vouchers);
                     voucher_table_footer();
 
                     $page_links = paginate_links([
-                        'base' => add_query_arg( 'pagenum', '%#%' ),
+                        'base' => add_query_arg('pagenum', '%#%'),
                         'format' => '',
                         'prev_text' => __( '&laquo;', 'dashicons-arrow-right-alt' ),
                         'next_text' => __( '&raquo;', 'dashicons-arrow-right-alt' ),
@@ -46,10 +46,13 @@ function vouchers_initial_page()
                         echo '<div class="tablenav"><div class="tablenav-pages" style="margin: 1em 0">' . $page_links . '</div></div>';
                     }
     echo '</div>
+            <div class="post-body-content">
+                <h1>Ações: </h1>
+                <button class="button button-primary button-hero">Utilizar Código</button>
+                <button class="button button-active button-hero">Lista de E-mails CSV</button>
+            </div>
             </div>
           </div>';
-
-
 }
 
 /*

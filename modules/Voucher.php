@@ -14,8 +14,10 @@ require_once 'Shortcodes.php';
  */
 function initVoucher()
 {
-    add_action('admin_head', 'voucher_raibu_js');
-    add_action('admin_head', 'voucher_raibu_css');
+    date_default_timezone_set('America/Sao_Paulo');
+    add_action('admin_head', 'voucher_admin_js');
+    add_action('wp_head', 'voucher_wp_js');
+    add_action('admin_head', 'voucher_admin_css');
     add_action('admin_menu', 'add_menu_admin');
 }
 
@@ -29,25 +31,38 @@ function add_menu_admin()
 }
 
 /*
- * Plugin JS Init
+ * Plugin JS Admin Init
  */
-function voucher_raibu_js()
+function voucher_admin_js()
 {
     echo '
         <script type="text/javascript">
             var vp_siteurl = "' . get_option( "siteurl" ) . '";
         </script>
-        <script type="text/javascript" src="' . plugin_dir_url( __FILE__ ) . '../js/index.js"></script>
+        <script type="text/javascript" src="' . plugin_dir_url( __FILE__ ) . '../js/admin.js"></script>
+    ';
+}
+
+/*
+ * Plugin JS Admin Init
+ */
+function voucher_wp_js()
+{
+    echo '
+        <script type="text/javascript">
+            var vp_siteurl = "' . get_option( "siteurl" ) . '";
+        </script>
+        <script type="text/javascript" src="' . plugin_dir_url( __FILE__ ) . '../js/wp.js"></script>
     ';
 }
 
 /*
  * Plugin CSS
  */
-function voucher_raibu_css()
+function voucher_admin_css()
 {
     echo '
-        <link rel="stylesheet" href="' . plugin_dir_url( __FILE__ ) . '../css/style-plugin.css">    
+        <link rel="stylesheet" href="' . plugin_dir_url( __FILE__ ) . '../css/admin.css">    
     ';
 }
 
