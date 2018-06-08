@@ -313,7 +313,7 @@ function generate_voucher()
         $limitVoucher = verify_limit_voucher($voucher);
 
         if (!$limitVoucher) {
-            throw new \Exception('Limite de usos diarios deste voucher atingido!', 401);
+            throw new \Exception('Limite de usos diarios deste voucher atingido!', 423);
         }
 
         $code = generate_code($voucher);
@@ -332,7 +332,7 @@ function generate_voucher()
            'message' => 'Voucher criado com sucesso!',
            'status_code' => 200,
            'voucher' => $voucher,
-           'voucher_code' => $code
+           'voucher_code' => format_code($code, $voucher->codeprefix)
         ], 200);
 
    } catch (\Exception $exception) {
@@ -419,5 +419,15 @@ function generate_code($voucher)
     }
 
     return $new_code;
+}
+
+/*
+ * Action: 17
+ * Description: Format voucher code to frontend
+ */
+function format_code($code, $prefix)
+{
+    $just_code = substr($code, strlen($prefix));
+    return "<strong>$prefix</strong>$just_code";
 }
 

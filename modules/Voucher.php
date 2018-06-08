@@ -15,8 +15,9 @@ require_once 'Shortcodes.php';
 function initVoucher()
 {
     date_default_timezone_set('America/Sao_Paulo');
-    add_action('admin_head', 'voucher_admin_js');
     add_action('wp_head', 'voucher_wp_js');
+    add_action('wp_head', 'voucher_wp_css');
+    add_action('admin_head', 'voucher_admin_js');
     add_action('admin_head', 'voucher_admin_css');
     add_action('admin_menu', 'add_menu_admin');
 }
@@ -63,6 +64,15 @@ function voucher_admin_css()
 {
     echo '
         <link rel="stylesheet" href="' . plugin_dir_url( __FILE__ ) . '../css/admin.css">    
+    ';
+}
+/*
+ * Plugin CSS
+ */
+function voucher_wp_css()
+{
+    echo '
+        <link rel="stylesheet" href="' . plugin_dir_url( __FILE__ ) . '../css/wp.css">    
     ';
 }
 

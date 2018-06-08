@@ -60,6 +60,7 @@ function redirect($url)
  */
 function response($array = [], $status_code)
 {
+    header('Content-Type: application/json');
     http_response_code($status_code);
     echo json_encode($array);
     die();
@@ -70,11 +71,11 @@ function response($array = [], $status_code)
  */
 function validation_email_domain($email)
 {
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return false;
     }
 
-    $dominio=explode('@', $email);
+    $dominio = explode('@', $email);
 
     if (!checkdnsrr($dominio[1],'A')) {
         return false;

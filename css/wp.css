@@ -1,0 +1,28 @@
+/*
+ * Autor: Jonatan Costa da Rosa
+ */
+
+.voucher {
+    background-color: rgba(0, 0, 0, 0.71);
+    background-size: 100%;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    /*border: 2px solid rgba(255, 255, 255, 0.31);*/
+}
+
+.voucher .voucher_code {
+    display: table;
+    margin: 10px auto 0 auto;
+    height: 30px;
+    padding: 10px !important;
+    border: 1px dashed #FFF;
+}
+
+.voucher .img-logo-voucher {
+    padding: 10px;
+}
+
+.voucher .img-logo-voucher img {
+    width: 70%;
+    margin: 0 auto;
+}
