@@ -19,7 +19,7 @@ function voucher_generate_shortcode( $atts )
                 <p class="text-center">
                     '.$active_voucher->description.'<br>
                     <small>*Válido apenas para cupom adquirido no mesmo dia.</small>
-                </p>-
+                </p>
                 <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-lg-push-3 form-voucher">
                     <div class="form-group">
@@ -57,8 +57,13 @@ function voucher_generate_shortcode( $atts )
                 </div>
             ';
         }
-
     }
+    return '
+            <h5 class="text-center">Descontos:</h5>
+            <p class="text-center">
+                No momento não há nenhum cupom desconto ativo.
+            </p>
+        ';
 }
 
 add_shortcode( 'voucher-generate', 'voucher_generate_shortcode' );

@@ -36,8 +36,8 @@ function vouchers_initial_page()
                     $page_links = paginate_links([
                         'base' => add_query_arg('pagenum', '%#%'),
                         'format' => '',
-                        'prev_text' => __( '&laquo;', 'dashicons-arrow-right-alt' ),
-                        'next_text' => __( '&raquo;', 'dashicons-arrow-right-alt' ),
+                        'prev_text' => '&laquo;',
+                        'next_text' => '&raquo;',
                         'total' => ( ($countVouchers >= 6 ? ($countVouchers + 6) : $countVouchers) / $perpage ),
                         'current' => $pagenum
                     ]);
@@ -48,8 +48,8 @@ function vouchers_initial_page()
     echo '</div>
             <div class="post-body-content">
                 <h1>Ações: </h1>
-                <button class="button button-primary button-hero">Utilizar Código</button>
-                <button class="button button-active button-hero">Lista de E-mails CSV</button>
+                <a class="button button-primary button-hero" href="?page=vouchers-use">Utilizar Código</a>
+                <a class="button button-active button-hero">Lista de E-mails CSV</a>
             </div>
             </div>
           </div>';
@@ -161,3 +161,48 @@ function voucher_form($obj = null)
     ';
 }
 
+/*
+ * Use Voucher Code Page
+ */
+function voucher_use_voucher_page()
+{
+    echo '<h2>Utilizar Código</h2>';
+    form_use_code();
+}
+
+/*
+ * Use Voucher Form
+ */
+function form_use_code()
+{
+    echo '
+        <div id="poststuff">
+            <div id="post-body" class="metabox-holder columns-2">
+                <div id="post-body-content" class="box-send-code">
+                    <div id="titlediv">
+                        <div id="titlewrap">
+                            <label>Código:</label>
+                            <input type="text" name="voucher_code" size="30" value="" id="title" spellcheck="true" autocomplete="off" placeholder="Digite o código do voucher" required>
+                             <div id="codeHelp" class="form-group hidden">
+                                <span class="label label-danger form-text text-muted" style="border-radius: 0px; margin: 5px auto 5px auto; display: block;">
+                                    <p style="margin: 0px;"></p>
+                                </span>
+                            </div>
+                            <button class="button button-hero button-active btn-use-code" type="submit" style="width: 100%">Utilizar Código</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="post-body-content" class="box-details-voucher hidden">
+                    <h1>Cupom: RAIBU10</h1>
+                    <p>
+                        Receba 20% de desconto em toda a compra na Raibu.
+                    </p>
+                    <div class="label label-success form-text text-muted" style="border-radius: 0px; margin: 5px auto 5px auto; display: block;">
+                        <p style="margin: 0px;">Cupom utilizado com sucesso!</p>
+                    </div>
+                    <a href="admin.php?page=vouchers-use" class="button button-primary pull right">Utilizar outro código</a>
+                </div>
+            </div>
+        </div>
+    ';
+}

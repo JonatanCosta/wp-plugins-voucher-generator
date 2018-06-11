@@ -2,19 +2,25 @@
 
 /*
  *          List of Actions
- * ==================================
- *                                  |
- * #01 - Create Voucher             |
- * #02 - Update Voucher             |
- * #03 - Delete Voucher             |
- * #04 - Disable Voucher            |
- * #05 - Active Voucher             |
- * #06 - Disable All Vouchers       |
- * #07 - Get All Vouchers           |
- * #08 - Count off Vouchers         |
- * #09 - Get Voucher by ID          |
- *                                  |
- * ==================================
+ * ==========================================
+ * #01 - Create Voucher
+ * #02 - Update Voucher
+ * #03 - Delete Voucher
+ * #04 - Disable Voucher
+ * #05 - Active Voucher
+ * #06 - Disable All Vouchers
+ * #07 - Get All Vouchers
+ * #08 - Count off Vouchers
+ * #09 - Get Voucher by ID
+ * #10 - Generate code voucher
+ * #11 - Vrf limit of gene. p days
+ * #12 - Generate voucher
+ * #13 - Vrf email in voucher generate
+ * #14 - Get voucher code by email
+ * #15 - Get voucher code by code
+ * #16 - Generate code voucher with prefix
+ * #17 - Format voucher code to frontend
+ * ==========================================
  */
 
 /*
@@ -292,7 +298,7 @@ function verify_limit_voucher($voucher)
 
 /*
  * Action: 12
- * Description: Generate code voucher
+ * Description: Generate voucher
  */
 add_action('wp_ajax_nopriv_generate_voucher', 'generate_voucher');
 add_action('wp_ajax_generate_voucher', 'generate_voucher');
@@ -391,7 +397,7 @@ function get_vouchercode($code, $used)
 
     $prefix = get_db_prefix();
 
-    $results = $wpdb->get_results('select * from '.$prefix.'voucher_codes where code = '.'"'.$code.'" and used = '+$used);
+    $results = $wpdb->get_results('select * from '.$prefix.'voucher_codes where code = "'.$code.'" and used = "'.$used.'"');
 
     if ($results) {
         return $results[0];
@@ -431,3 +437,44 @@ function format_code($code, $prefix)
     return "<strong>$prefix</strong>$just_code";
 }
 
+/*
+ * Action: 18
+ * Description: Use voucher code
+ */
+add_action('wp_ajax_use_voucher', 'use_voucher');
+
+function use_voucher()
+{
+    try {
+        $voucher = get_vouchercode($_POST['code'], false);
+
+        if (!$voucher || $voucher->used == true) {
+            throw new \Exception('Código inválido ou já usado.', 404);
+        }
+
+        $created_at = new DateTime($voucher->created_at);
+        $now = new DateTime();
+
+        if ($created_at->format('Y-m-d') != $now->format('Y-m-d')) {
+            throw new \Exception('Este código está expirado.', 401);
+        }
+
+        global $wpdb;
+
+        $wpdb->update(get_db_prefix().'voucher_codes',
+            ['used' => 1],
+            [ 'id' => $voucher->id ]
+        );
+
+        return response([
+            'message' => 'Vale de desconto utilizado com sucesso!',
+            'status_code' => 200,
+            'voucher' => get_voucher($voucher->voucher_id)
+        ], 200);
+    } catch (\Exception $exception) {
+        return response([
+            'message' => $exception->getMessage(),
+            'status_code' => $exception->getCode()
+        ], $exception->getCode());
+    }
+}

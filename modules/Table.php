@@ -6,7 +6,7 @@ function voucher_table_header( $headings )
 {
     echo '
     <a class="button button-primary pull right" style="margin-bottom: 1vh; margin-right: 1vh;" href="?page=vouchers-create">Adicionar Novo Voucher</a>
-    <a class="button button-secondary pull right" style="margin-bottom: 1vh; margin-right: 1vh;">Utilizar Código</a>
+    <a class="button button-secondary pull right" style="margin-bottom: 1vh; margin-right: 1vh;" href="?page=vouchers-use">Utilizar Código</a>
 	<table class="wp-list-table widefat fixed striped">
 	<thead>
 	<tr>
