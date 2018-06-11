@@ -25,7 +25,7 @@ function voucher_table_boddy($vouchers)
 {
     if (!$vouchers || count($vouchers) === 0) {
         echo '<tr>
-                <td colspan="5" style="text-align: center"> Não há nenhum voucher cadastrado. </td>
+                <td colspan="6" style="text-align: center"> Não há nenhum voucher cadastrado. </td>
               </tr>';
         return;
     }
