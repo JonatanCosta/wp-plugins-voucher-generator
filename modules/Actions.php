@@ -463,7 +463,7 @@ function use_voucher()
 
         $wpdb->update(get_db_prefix().'voucher_codes',
             ['used' => 1],
-            [ 'id' => $voucher->id ]
+            ['id' => $voucher->id]
         );
 
         return response([
@@ -478,3 +478,52 @@ function use_voucher()
         ], $exception->getCode());
     }
 }
+
+/*
+ * Action: 19
+ * Description: Get voucher generator configs
+ */
+function get_voucher_config()
+{
+    global $wpdb;
+
+    $results = $wpdb->get_results('select * from '.get_db_prefix().'voucher_config'.' where id = 1;');
+
+    if ($results) {
+        return $results[0];
+    }
+
+    return $results;
+}
+
+/*
+ * Action: 02
+ * Description: Update voucher
+ */
+add_action('admin_post_configure_voucher', 'update_config_voucher');
+
+function update_config_voucher()
+{
+    try {
+        global $wpdb;
+
+        $wpdb->update(
+            get_db_prefix().'voucher_config',
+            [
+                'terms' => $_POST['terms'],
+                'logo_url' => $_POST['logo_url']
+            ],
+            ['id' => 1]
+        );
+
+        create_message_response('Configurações atualizadas com sucesso!', 1);
+        return header( "Location: admin.php?page=voucher-config");
+
+    } catch (\Exception $exception) {
+        create_message_response('Ocorreu um erro ao atualizar as configurações!', 2);
+        return header( "Location: admin.php?page=voucher-config");
+    }
+}
+
+
+

@@ -85,7 +85,7 @@ jQuery(document).ready(function () {
         }, error => {
             jQuery(this).attr('disabled', false).html('Utilizar Código')
             jQuery('#codeHelp').removeClass('hidden').hide().fadeIn(300)
-            jQuery('#codeHelp span p').html('Código inválido, expirado ou já usado!')
+            jQuery('#codeHelp span p').html('Código inválido, expirado ou já utilizado!')
             jQuery('input[name="voucher_code"]').focus()
         })
     })

@@ -80,5 +80,21 @@ function voucher_create_tables()
 			) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
     dbDelta($table_vouchers_codes);
 
+    $table_vouchers = "CREATE TABLE IF NOT EXISTS " . $prefix . "voucher_config (
+			  id int unsigned NOT NULL AUTO_INCREMENT,
+			  terms VARCHAR(250) NOT NULL,
+			  logo_url VARCHAR(250) NOT NULL,
+			  PRIMARY KEY  id (id)
+			) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+    dbDelta($table_vouchers);
+
     sleep(1);
+
+    global $wpdb;
+
+    $wpdb->insert($prefix.'voucher_config', [
+        'terms' => '*Válido apenas para cupom adquirido no mesmo dia. <br>
+                        Desconto disponível para uma pessoa.',
+        'logo_url' => 'https://www.twenga-solutions.com/en/insights/wp-content/uploads/sites/71/2015/05/twenga-logo-e1440064664920-500x150.png'
+    ]);
 }

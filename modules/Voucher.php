@@ -30,6 +30,7 @@ function add_menu_admin()
     add_menu_page('Voucher', 'Vouchers', 'manage_options', 'voucher', "vouchers_initial_page", 'dashicons-tickets-alt');
     add_submenu_page('voucher', 'Criar Voucher', 'Criar Voucher', 'publish_posts', 'vouchers-create', 'voucher_create_voucher_page');
     add_submenu_page('voucher', 'Utilizar Código', 'Utilizar Código', 'publish_posts', 'vouchers-use', 'voucher_use_voucher_page');
+    add_submenu_page('voucher', 'Confirgurações do Voucher', 'Configurações', 'publish_posts', 'voucher-config', 'voucher_config_page');
 }
 
 /*
