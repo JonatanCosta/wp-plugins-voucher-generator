@@ -20,6 +20,7 @@ function initVoucher()
     add_action('admin_head', 'voucher_admin_js');
     add_action('admin_head', 'voucher_admin_css');
     add_action('admin_menu', 'add_menu_admin');
+    add_action( 'wp_enqueue_scripts', 'add_ajax_script' );
 }
 
 /*
@@ -53,7 +54,8 @@ function voucher_wp_js()
 {
     echo '
         <script type="text/javascript">
-            var vp_siteurl = "' . get_option( "siteurl" ) . '";
+            var vp_siteurl = "' . get_option( "siteurl" ) . '",
+                ajaxurl = "'. admin_url( 'admin-ajax.php', 'relative' ).'";
         </script>
         <script type="text/javascript" src="' . plugin_dir_url( __FILE__ ) . '../js/wp.js"></script>
     ';
@@ -77,5 +79,15 @@ function voucher_wp_css()
     echo '
         <link rel="stylesheet" href="' . plugin_dir_url( __FILE__ ) . '../css/wp.css">    
     ';
+}
+
+/*
+ * Ajax Script
+ */
+function add_ajax_script()
+{
+
+    wp_localize_script( 'wp_js', 'ajax_params', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
 }
 

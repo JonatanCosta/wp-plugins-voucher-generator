@@ -51,7 +51,7 @@ function voucher_generate_shortcode( $atts )
                     <img src="'.$voucher_config->logo_url.'" class="img-responsive" style="max-height: 150px; max-width: 500px">
                     </div>
                     <div class="col-md-12">
-                    <h6 class="text-center">Código:</h6>
+                    <h6 class="text-center" style="color: #FFF">Código:</h6>
                     <div class="voucher_code">
                         <p style="margin-bottom: 0px !important;">
                         </p>

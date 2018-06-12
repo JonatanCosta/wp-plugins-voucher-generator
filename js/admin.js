@@ -1,4 +1,5 @@
 jQuery(document).ready(function () {
+    console.log(ajaxurl)
     let removeVoucher = (id) => {
         jQuery.post('admin-ajax.php', {
             id: id,

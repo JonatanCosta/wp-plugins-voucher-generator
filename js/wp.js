@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
     let generateVoucher = (id_voucher, email) => {
-        return jQuery.post('wp-admin/admin-ajax.php', {
+        return jQuery.post(ajaxurl, {
             id: id_voucher,
             email: email,
             action: 'generate_voucher'
