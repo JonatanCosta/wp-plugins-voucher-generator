@@ -17,7 +17,7 @@ function voucher_generate_shortcode( $atts )
         if (isset($atts['id'])) {
             return '
                 <div class="row '.$atts['class'].'">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-lg-push-3 form-voucher">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-voucher">
                 <h5 class="text-center">Descontos:</h5>
                 <h1 class="text-center">'.$active_voucher->name.'</h1>
                 <p class="text-center">
